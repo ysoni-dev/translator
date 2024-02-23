@@ -1,8 +1,7 @@
-
-import express from 'express';
-import bodyParser from 'body-parser';
-import translate from 'translate-google';
-import langdetect from 'langdetect';
+const express = require('express')
+const bodyParser = require('body-parser')
+const translate = require('translate-google')
+const langdetect = require('langdetect')
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -43,8 +42,17 @@ const textTranslate = async (req, res) => {
     try {
         const textToTranslate = req.body.text;
 
-        if (!textToTranslate) {
-            return res.status(400).json({ error: 'Text is required in the request body.' });
+        if (textToTranslate === null || typeof textToTranslate !== 'string' || !textToTranslate.trim()) {
+            return res.status(400).json({ error: 'Text is required in the request body and must be a non-empty string.' });
+        }
+
+        // Check if the content is numeric or not translatable
+        if (/^\d+$/.test(textToTranslate)) {
+            return res.json({
+                message: 'The provided text is invalid and cannot be translated.',
+                originalText: textToTranslate,
+                translatedText: textToTranslate
+            });
         }
 
         const detectedLanguage = langdetect.detectOne(textToTranslate);
