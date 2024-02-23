@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const translate = require('translate-google')
-const langdetect = require('langdetect')
+// const langdetect = require('langdetect')
 require('dotenv').config()
 
 const app = express();
@@ -62,13 +62,16 @@ const textTranslate = async (req, res) => {
 
         const detectedLanguage = langdetect.detectOne(textToTranslate);
 
-        if (detectedLanguage === 'fr') {
-            return res.json({
-                message: 'The provided text is already in French.',
-                originalText: textToTranslate,
-                translatedText: textToTranslate
-            });
-        }
+
+        // uncomment the below code for running in you local to get this feature
+        // if (detectedLanguage === 'fr') {
+        //     return res.json({
+        //         message: 'The provided text is already in French.',
+        //         originalText: textToTranslate,
+        //         translatedText: textToTranslate
+        //     });
+        // }
+        
 
         const translation = await translate(textToTranslate, { to: 'fr' });
 
