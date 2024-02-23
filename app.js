@@ -60,10 +60,8 @@ const textTranslate = async (req, res) => {
             });
         }
 
-        const detectedLanguage = langdetect.detectOne(textToTranslate);
-
-
         // uncomment the below code for running in you local to get this feature
+        // const detectedLanguage = langdetect.detectOne(textToTranslate);
         // if (detectedLanguage === 'fr') {
         //     return res.json({
         //         message: 'The provided text is already in French.',
